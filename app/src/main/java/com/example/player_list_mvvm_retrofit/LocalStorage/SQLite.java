@@ -27,5 +27,5 @@ public class SQLite extends SQLiteOpenHelper {
         return 0;
     }
 
-    
+
 }

@@ -9,8 +9,8 @@ import retrofit2.http.GET;
 
 
 public interface API {
+
     @NonNull
-    @FormUrlEncoded
-    @GET
+    @GET(".")
     Call<ResponseBody>data();
 }

@@ -4,29 +4,43 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.player_list_mvvm_retrofit.Network.Retrofit;
 import com.example.player_list_mvvm_retrofit.R;
 import com.example.player_list_mvvm_retrofit.Model.Player;
+import com.example.player_list_mvvm_retrofit.RecylerAdapter.RecyclerAdapter;
 import com.example.player_list_mvvm_retrofit.ViewModel.ShowPlayers;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     Button fetch;
-    TextView t1, t2;
     ShowPlayers model;
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+
+    LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fetch = findViewById(R.id.fet);
-        t1 = findViewById(R.id.text1);
-        t2 = findViewById(R.id.text2);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
 
         // Get the ViewModel.
         model = ViewModelProviders.of(this).get(ShowPlayers.class);
@@ -37,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         fetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.getData();
+                model.getData(recyclerAdapter,recyclerView);
             }
         });
 
@@ -47,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
         final Observer<Player> nameObserver = new Observer<Player>() {
         @Override
         public void onChanged(@Nullable final Player player) {
-            t1.setText(player.getName());
-            t2.setText(player.getRole());
+
         }
     };
+
+
 }
